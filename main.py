@@ -1,4 +1,5 @@
 import string
+import copy
 
 class Node:
     def __init__(self, letter, number):
@@ -13,14 +14,32 @@ class Node:
 
 class Word_Matrix:
     def __init__(self, input):
-        nodes = []
-        input = input.split()
+
+        # Pull word list
+        file = open('wordlist.txt')
+
+        print('======================= Loading Word List =======================')
+        print('Words from: ' + file.readline())
+        file.readline()
+
+        content = file.read()
+        word_list = set(content.split('\n'))
+
+        print('============================ Loaded =============================')
+        print()
+        print()
+        print()
+        print('========================= Finding Words =========================')
+
+        node_list = []
 
         for i in range(len(input)):
-            nodes.append(Node(input[i], i))
+            node_list.append(Node(input[i], i))  # Can do this since strings are iterable!
 
         # Nodes now need to be connected properly.
         for i in range(16):  # Since letters are in 4x4 grid == 16 nodes
+
+            # Is the node on these edges?
             left_edge = (i % 4 == 0)
             right_edge = (i % 4 == 3)
             top_edge = (i < 4)
@@ -46,35 +65,62 @@ class Word_Matrix:
                 neighbour_indices = [i - 5, i - 4, i - 3, i - 1, i + 1, i + 3, i + 4, i + 5]
 
             for j in neighbour_indices:
-                nodes[i].link(nodes[j])
+                node_list[i].link(node_list[j])
 
         # Nodes are now connected. Graph can be searched for words.
-        solutions = search(nodes)
+        # Solutions is a dict. Keys are words, items are list of node integers - the swipe order
+        # Passing dicts passes shallow copy - so can just pass solution dict in and edit inside
 
-    def search(self, nodes):
-        """Searches through the word matrix, returns a dict.
-            Keys == words (String)
-            Items == swipe order (list of indices)
+        solutions = dict()
 
-        :return: dict
-        """
+        for node in node_list:
+            word_bfs(node, list(), '', word_list, solutions)
 
+        # Solutions is now complete. Display the swipes!
+        print('Found ' + str(len(solutions)) + ' Words')
+        print('========================== Words Loaded =========================')
+        print()
+        print()
+        print()
+        print('======================== Display Results ========================')
+        print("Go get 'em tiger.")
+        print()
+
+        # TODO graphics
+        # For now
+        for solution in solutions.items():
+            print(solution)
+
+
+def word_bfs(node, path, word_so_far, word_list, solutions):
+    # Housekeeping
+    new_path = path + [node.number]
+    new_word_so_far = word_so_far + node.letter
+
+    if new_word_so_far in word_list and len(new_word_so_far) >= 3:
+        solutions[new_word_so_far] = new_path
+
+    for neighbour in node.neighbours:
+        if neighbour.number not in new_path:  # Prevent double-counting same node in word
+            word_bfs(neighbour, new_path, new_word_so_far, word_list, solutions)
 
 
 def main():
     ### Data Intake ###
     # TODO
-    input = "A B C D \n E F G H \n I J K L \n L M N O"
+    input = 'A B C D \n E F G H \n I J K L \n L M N O'
 
     ### Data Processing ###
     # input format: "A B C D \n E F G H \n I J K L \n L M N O"
+    # processed format: "ABCDEFGHIJKLMNO"
 
-
+    processed_input = 'HDHFRNOAETOTALER'
+    Word_Matrix(processed_input)
 
 
     ### Result Presenting ###
 
-    pass
+    return
 
 
 # Press the green button in the gutter to run the script.
