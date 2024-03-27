@@ -1,5 +1,5 @@
-import string
-import copy
+from tkinter import *
+from tkinter import ttk
 
 class Node:
     def __init__(self, letter, number):
@@ -86,10 +86,10 @@ class Word_Matrix:
         print("Go get 'em tiger.")
         print()
 
-        # TODO graphics
-        # For now
-        for solution in solutions.items():
-            print(solution)
+        display(solutions)
+
+        # for solution in solutions.items():
+        #     print(solution)
 
 
 def word_bfs(node, path, word_so_far, word_list, solutions):
@@ -103,6 +103,54 @@ def word_bfs(node, path, word_so_far, word_list, solutions):
     for neighbour in node.neighbours:
         if neighbour.number not in new_path:  # Prevent double-counting same node in word
             word_bfs(neighbour, new_path, new_word_so_far, word_list, solutions)
+
+
+def display(solutions):
+    # TODO graphics
+    root = Tk()
+    root.title('Word Hunter-Killer')
+    can = Canvas(root, width=400, height=400)
+    can.grid()
+
+    backing = can.create_rectangle(0, 0, 400, 400, fill='lightgrey', outline='black', width=1)
+
+    # Grid
+    # Verticals
+    can.create_line(100, 0, 100, 400, fill='black')
+    can.create_line(200, 0, 200, 400, fill='black')
+    can.create_line(300, 0, 300, 400, fill='black')
+    can.create_line(400, 0, 400, 400, fill='black')
+
+    # Horizontals
+    can.create_line(0, 100, 400, 100, fill='black')
+    can.create_line(0, 200, 400, 200, fill='black')
+    can.create_line(0, 300, 400, 300, fill='black')
+    can.create_line(0, 400, 400, 400, fill='black')
+
+    root.bind('<KeyRelease>', change)
+
+
+
+    # ttk.Label(frm, text="Hello World!").grid(column=0, row=0)
+    # ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=0)
+
+    root.mainloop()
+
+
+def change(event):
+    """
+    Advance or regress to the next/previous word.
+
+    :param event:
+    :return: NIL
+    """
+    if event.keysym == 'Right':
+        # Advance right
+        pass
+    elif event.keysym == 'Left':
+        # Regress left
+        pass
+
 
 
 def main():
