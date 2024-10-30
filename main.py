@@ -19,18 +19,15 @@ class Word_Matrix:
         # Pull word list
         file = open('wordlist.txt')
 
-        print('======================= Loading Word List =======================')
-        print('Words from: ' + file.readline())
-        file.readline()
+        print('\033[1;35m' + 'word-hunter-killer' + '\033[0m' + ': Loading word list')
+        print('Words from: ' + file.readline().strip())
 
+        file.readline()
         content = file.read()
         word_list = set(content.split('\n'))
 
-        print('============================ Loaded =============================')
-        print()
-        print()
-        print()
-        print('========================= Finding Words =========================')
+        print('Loaded')
+        print('\033[1;35m' + 'word-hunter-killer' + '\033[0m' + ': Searching for words')
 
         node_list = []
 
@@ -79,13 +76,10 @@ class Word_Matrix:
 
         # Solutions is now complete. Display the swipes!
         print('Found ' + str(len(solutions)) + ' Words')
-        print('========================== Words Loaded =========================')
+        print('Words loaded')
+        print('\033[1;35m' + 'word-hunter-killer' + '\033[0m' + ': Displaying results')
         print()
-        print()
-        print()
-        print('======================== Display Results ========================')
-        print("Go get 'em tiger.")
-        print()
+        print('Destroy them.') # print("Go get 'em tiger.")
 
         display(solutions)
 
@@ -130,26 +124,19 @@ def display(solutions):
 
     root.bind('<KeyRelease>', change)
 
-
-
-    # ttk.Label(frm, text="Hello World!").grid(column=0, row=0)
-    # ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=0)
-
     root.mainloop()
 
 
 def change(event):
-    """
-    Advance or regress to the next/previous word.
+    # TODO Add display of action sequences to UI.
 
-    :param event:
-    :return: NIL
-    """
     if event.keysym == 'Right':
         # Advance right
+        print('RIGHT SHIFT')
         pass
     elif event.keysym == 'Left':
         # Regress left
+        print('LEFT SHIFT')
         pass
 
 
