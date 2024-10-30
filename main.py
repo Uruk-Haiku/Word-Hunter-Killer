@@ -1,3 +1,4 @@
+import sys
 from tkinter import *
 from tkinter import ttk
 
@@ -156,17 +157,47 @@ def change(event):
 def main():
     ### Data Intake ###
     # TODO
-    input = 'A B C D \n E F G H \n I J K L \n L M N O'
 
-    ### Data Processing ###
-    # input format: "A B C D \n E F G H \n I J K L \n L M N O"
-    # processed format: "ABCDEFGHIJKLMNO"
+    input_accepted = False
+    fails = 0
+    
+    while not input_accepted:
+        try:
+            raw_input = str(input('\033[1;35m' + 'word-hunter-killer' + '\033[0m' + ': Enter the content of the grid, left to right, top to bottom, no delimiters or newlines.\n'))
+
+            # Command parsing
+            # TODO use argparse and add more options
+            if raw_input == 'quit' or raw_input == 'q':
+                print('\033[1;35m' + 'word-hunter-killer' + '\033[0m' + ': Quitting.')
+                sys.exit()
+            
+
+            ### Data Processing ###
+            # target processed format: "ABCDEFGHIJKLMNO"
+            print('DEBUG ' + raw_input)
+            processed_input = raw_input.translate( {ord(c): None for c in ' \n\t,.;'} ) # Common delimiters
+            processed_input = processed_input.upper()
+            print('DEBUG ' + processed_input)
+
+            if len(processed_input) < 16:
+                raise ValueError('Input too short')
+            if len(processed_input) > 16:
+                raise ValueError('Input too long')
+            if not processed_input.isalpha():
+                raise ValueError('Non-alphabetic characters inserted')
+            
+            input_accepted = True
+            
+        except ValueError as value_err:
+            print(value_err.args[0] + '. Please re-enter your grid.\n')
+            fails += 1
+
+            if fails >= 3:
+                print('\033[1;35m' + 'word-hunter-killer' + '\033[0m' + ': Too many failures. Closing.')
+                sys.exit()
 
     processed_input = 'HDHFRNOAETOTALER'
     Word_Matrix(processed_input)
-
-
-    ### Result Presenting ###
 
     return
 
