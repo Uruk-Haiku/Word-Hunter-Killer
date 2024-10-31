@@ -104,26 +104,37 @@ def display(solutions):
     # TODO graphics
     root = Tk()
     root.title('Word Hunter-Killer')
+    global can # yes bad practice but I don't want to make the window until after command line text is entered. Sue me.
     can = Canvas(root, width=400, height=400)
     can.grid()
 
-    backing = can.create_rectangle(0, 0, 400, 400, fill='lightgrey', outline='black', width=1)
+    # # Grid
+    # # Verticals
+    # can.create_line(100, 0, 100, 400, fill='black')
+    # can.create_line(200, 0, 200, 400, fill='black')
+    # can.create_line(300, 0, 300, 400, fill='black')
+    # can.create_line(400, 0, 400, 400, fill='black')
 
-    # Grid
-    # Verticals
-    can.create_line(100, 0, 100, 400, fill='black')
-    can.create_line(200, 0, 200, 400, fill='black')
-    can.create_line(300, 0, 300, 400, fill='black')
-    can.create_line(400, 0, 400, 400, fill='black')
+    # # Horizontals
+    # can.create_line(0, 100, 400, 100, fill='black')
+    # can.create_line(0, 200, 400, 200, fill='black')
+    # can.create_line(0, 300, 400, 300, fill='black')
+    # can.create_line(0, 400, 400, 400, fill='black')
 
-    # Horizontals
-    can.create_line(0, 100, 400, 100, fill='black')
-    can.create_line(0, 200, 400, 200, fill='black')
-    can.create_line(0, 300, 400, 300, fill='black')
-    can.create_line(0, 400, 400, 400, fill='black')
+    global display
+    display = [None]*16
+    for i in range(16):
+        x0 = (i % 4)*100
+        y0 = (i // 4)*100
+        x1 = x0 + 100
+        y1 = y0 + 100
+
+        display[i] = can.create_rectangle(x0, y0, x1, y1, fill='lightgrey', outline='black', width=1)
+
+    global solution_index
+    solution_index = 0
 
     root.bind('<KeyRelease>', change)
-
     root.mainloop()
 
 
@@ -133,12 +144,20 @@ def change(event):
     if event.keysym == 'Right':
         # Advance right
         print('RIGHT SHIFT')
+        can.itemconfig(display[0], fill='blue')
+        answer_index += 1
         pass
     elif event.keysym == 'Left':
         # Regress left
         print('LEFT SHIFT')
+        can.itemconfig(display[0], fill='red')
+        answer_index -= 1 if answer_index > 0 else 0
         pass
 
+
+def display_solution(solutions, solution_index):
+    solution = solutions[solution_index]
+    
 
 
 def main():
