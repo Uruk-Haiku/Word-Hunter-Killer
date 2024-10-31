@@ -2,6 +2,10 @@ import sys
 from tkinter import *
 from tkinter import ttk
 
+# I literally cannot figure out a better way to do this.
+solution_index = 0
+solutions = list()
+
 class Node:
     def __init__(self, letter, number):
         self.letter = letter
@@ -74,13 +78,9 @@ class Word_Matrix:
         for node in node_list:
             word_bfs(node, list(), '', word_list, solves)
 
-        solutions = list()
         for word in solves:
             solutions.append(solves[word])
 
-        print(solves)
-
-        # Solutions is now complete. Display the swipes!
         print('Found ' + str(len(solutions)) + ' Words')
         print('Words loaded')
         print('\033[1;35m' + 'word-hunter-killer' + '\033[0m' + ': Displaying results')
@@ -91,6 +91,8 @@ class Word_Matrix:
         #     print(solution)
         # for word in solves.keys():
         #     print(word)
+
+        solution_index = 0
 
         display(solutions)
 
@@ -139,8 +141,7 @@ def display(solutions):
 
         display[i] = can.create_rectangle(x0, y0, x1, y1, fill='lightgrey', outline='black', width=1)
 
-    global solution_index
-    solution_index = 0
+    display_solution(solutions, solution_index)
 
     root.bind('<KeyRelease>', change)
     root.mainloop()
@@ -148,23 +149,28 @@ def display(solutions):
 
 def change(event):
     # TODO Add display of action sequences to UI.
+    global solution_index
+    global solutions
 
     if event.keysym == 'Right':
         # Advance right
         print('RIGHT SHIFT')
         can.itemconfig(display[0], fill='blue')
-        answer_index += 1
-        pass
+        solution_index += 1
+        print(solution_index)
     elif event.keysym == 'Left':
         # Regress left
         print('LEFT SHIFT')
         can.itemconfig(display[0], fill='red')
-        answer_index -= 1 if answer_index > 0 else 0
-        pass
+        solution_index -= 1 if solution_index > 0 else 0
+        print(solution_index)
+
+    display_solution(solutions, solution_index)
 
 
 def display_solution(solutions, solution_index):
     solution = solutions[solution_index]
+    print(solution)
 
     
 
