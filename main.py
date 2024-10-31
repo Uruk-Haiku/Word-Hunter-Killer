@@ -69,10 +69,16 @@ class Word_Matrix:
         # Solutions is a dict. Keys are words, items are list of node integers - the swipe order
         # Passing dicts passes shallow copy - so can just pass solution dict in and edit inside
 
-        solutions = dict()
+        solves = dict()
 
         for node in node_list:
-            word_bfs(node, list(), '', word_list, solutions)
+            word_bfs(node, list(), '', word_list, solves)
+
+        solutions = list()
+        for word in solves:
+            solutions.append(solves[word])
+
+        print(solves)
 
         # Solutions is now complete. Display the swipes!
         print('Found ' + str(len(solutions)) + ' Words')
@@ -81,10 +87,12 @@ class Word_Matrix:
         print()
         print('Destroy them.') # print("Go get 'em tiger.")
 
-        display(solutions)
-
-        # for solution in solutions.items():
+        # for solution in solutions:
         #     print(solution)
+        # for word in solves.keys():
+        #     print(word)
+
+        display(solutions)
 
 
 def word_bfs(node, path, word_so_far, word_list, solutions):
@@ -157,8 +165,8 @@ def change(event):
 
 def display_solution(solutions, solution_index):
     solution = solutions[solution_index]
-    
 
+    
 
 def main():
     ### Data Intake ###
@@ -180,10 +188,8 @@ def main():
 
             ### Data Processing ###
             # target processed format: "ABCDEFGHIJKLMNO"
-            print('DEBUG ' + raw_input)
             processed_input = raw_input.translate( {ord(c): None for c in ' \n\t,.;'} ) # Common delimiters
             processed_input = processed_input.upper()
-            print('DEBUG ' + processed_input)
 
             if len(processed_input) < 16:
                 raise ValueError('Input too short')
@@ -202,7 +208,6 @@ def main():
                 print('\033[1;35m' + 'word-hunter-killer' + '\033[0m' + ': Too many failures. Closing.')
                 sys.exit()
 
-    processed_input = 'HDHFRNOAETOTALER'
     Word_Matrix(processed_input)
 
     return
