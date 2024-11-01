@@ -3,6 +3,8 @@ from tkinter import *
 from tkinter import ttk
 import colorsys
 
+# asdfqwerplownint
+
 # I literally cannot figure out a better way to do this.
 solution_index = 0
 solutions = list()
@@ -71,27 +73,29 @@ class Word_Matrix:
                 node_list[i].link(node_list[j])
 
         # Nodes are now connected. Graph can be searched for words.
-        # Solutions is a dict. Keys are words, items are list of node integers - the swipe order
-        # Passing dicts passes shallow copy - so can just pass solution dict in and edit inside
+        # Solves is a dict. Keys are words, items are list of node integers - the swipe order
+        # Passing dicts passes shallow copy - so can just pass solution dict in and edit inside.
 
         solves = dict()
 
         for node in node_list:
             word_bfs(node, list(), '', word_list, solves)
 
+        global solutions
+
         for word in solves:
             solutions.append(solves[word])
+
+        # Solutions is a list of lists of ints, portraying the swipe order needed.
+
+        solutions = sorted(solutions, key=lambda x: len(x))
+        solutions.reverse()
 
         print('Found ' + str(len(solutions)) + ' Words')
         print('Words loaded')
         print('\033[1;35m' + 'word-hunter-killer' + '\033[0m' + ': Displaying results')
         print()
         print('Destroy them.') # print("Go get 'em tiger.")
-
-        # for solution in solutions:
-        #     print(solution)
-        # for word in solves.keys():
-        #     print(word)
 
         display(solutions)
 
@@ -140,6 +144,10 @@ def display(solutions):
 
         display[i] = can.create_rectangle(x0, y0, x1, y1, fill='lightgrey', outline='black', width=1)
 
+    # solutions = sorted(solutions, key=lambda x: len(x))
+    # solutions.reverse()
+    
+    print(solutions)
     display_solution(solutions, solution_index)
     print('LENGTH OF SOLUTIONS: ' + str(len(solutions)))
 
@@ -159,6 +167,8 @@ def change(event):
         if solution_index < len(solutions) - 1:
             solution_index += 1
         print(solution_index)
+        print("CONFIRMING SOLUTIONS UNMUTATED")
+        print(solutions)
     elif event.keysym == 'Left':
         # Regress left
         print('LEFT SHIFT')
@@ -166,6 +176,8 @@ def change(event):
         if solution_index > 0:
             solution_index -= 1
         print(solution_index)
+        print("CONFIRMING SOLUTIONS UNMUTATED")
+        print(solutions)
 
     display_solution(solutions, solution_index)
 
