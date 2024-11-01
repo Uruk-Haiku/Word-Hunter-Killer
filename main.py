@@ -1,6 +1,7 @@
 import sys
 from tkinter import *
 from tkinter import ttk
+import colorsys
 
 # I literally cannot figure out a better way to do this.
 solution_index = 0
@@ -92,8 +93,6 @@ class Word_Matrix:
         # for word in solves.keys():
         #     print(word)
 
-        solution_index = 0
-
         display(solutions)
 
 
@@ -142,6 +141,7 @@ def display(solutions):
         display[i] = can.create_rectangle(x0, y0, x1, y1, fill='lightgrey', outline='black', width=1)
 
     display_solution(solutions, solution_index)
+    print('LENGTH OF SOLUTIONS: ' + str(len(solutions)))
 
     root.bind('<KeyRelease>', change)
     root.mainloop()
@@ -156,20 +156,32 @@ def change(event):
         # Advance right
         print('RIGHT SHIFT')
         can.itemconfig(display[0], fill='blue')
-        solution_index += 1
+        if solution_index < len(solutions) - 1:
+            solution_index += 1
         print(solution_index)
     elif event.keysym == 'Left':
         # Regress left
         print('LEFT SHIFT')
         can.itemconfig(display[0], fill='red')
-        solution_index -= 1 if solution_index > 0 else 0
+        if solution_index > 0:
+            solution_index -= 1
         print(solution_index)
 
     display_solution(solutions, solution_index)
 
 
 def display_solution(solutions, solution_index):
+    for i in range(len(display)):
+        can.itemconfig(display[i], fill='lightgrey')
     solution = solutions[solution_index]
+    colour_increment = 1 / len(solution)
+    current_colour = 0
+    for i in range(len(solution)):
+        r, g, b = colorsys.hsv_to_rgb(current_colour, 1, 1)
+        fill = '#{:02x}{:02x}{:02x}'.format(int(r * 255), int(g * 255), int(b * 255))
+        can.itemconfig(display[solution[i]], fill=fill)
+        current_colour += colour_increment
+        
     print(solution)
 
     
