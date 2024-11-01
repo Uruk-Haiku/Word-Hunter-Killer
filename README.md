@@ -26,6 +26,12 @@ You should be able to download and run - I believe(?) all libraries are included
 ## Using
 Run main.py and enter your grid, left-to-right/top-to-bottom into the prompt. No need for delimiters (though the 
 system should be able to remove most). Words are served to you via a colour-based GUI system that I believe allows 
-for faster recognition of swipe paths and entering into your device. Start at on the red square and follow the
-colour spectrum towards the final blue. It can take a bit of practice but I believe it to be faster than using
-numbers. Colourblind people - good luck (colourblind mode coming soon).
+for faster recognition of swipe paths and entering into your device. 
+
+Start at on the red square and follow the colour spectrum towards the final blue. It can take a bit of practice
+but I believe it to be faster than using numbers. Colourblind people - good luck (colourblind mode coming soon).
+
+Scroll through the answers using the left and right arrow keys.
+
+Words are also displayed at the top of the window. Unfortunately, due to the fact that the Word Hunt wordlist
+is not public, Word-Hunter-Seeker will occaisonally serve you an invalid word - just move on.
