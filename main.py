@@ -100,7 +100,7 @@ class Word_Matrix:
         print('Words loaded')
         print('\033[1;35m' + 'word-hunter-killer' + '\033[0m' + ': Displaying results')
         print()
-        print('Destroy them.') # print("Go get 'em tiger.")
+        print('Destroy them.')
 
         display(solutions)
 
@@ -218,7 +218,7 @@ def main():
             raw_input = str(input('\033[1;35m' + 'word-hunter-killer' + 
                                   '\033[0m' + ': Enter the content of the grid, left to right, top to bottom,\n' + 
                                     'no delimiters or newlines. Use the left and right arrows to scroll through\n' +
-                                        'answers. Start on red, follow the color spectrum down to blue. \n'))
+                                        'answers. Start on red, follow the color spectrum down to blue. \n > '))
 
             # Command parsing
             # TODO use argparse and add more options
