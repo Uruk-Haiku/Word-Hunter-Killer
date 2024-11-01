@@ -82,7 +82,7 @@ class Word_Matrix:
         for node in node_list:
             word_bfs(node, list(), '', word_list, solves)
 
-        print(solves)
+        #print(solves)
         global inverse_solves
         inverse_solves = {str(v): k for k, v in solves.items()}
 
@@ -153,9 +153,9 @@ def display(solutions):
     # solutions = sorted(solutions, key=lambda x: len(x))
     # solutions.reverse()
     
-    print(solutions)
+    #print(solutions)
     display_solution(solutions, solution_index)
-    print('LENGTH OF SOLUTIONS: ' + str(len(solutions)))
+    #print('LENGTH OF SOLUTIONS: ' + str(len(solutions)))
 
     root.bind('<KeyRelease>', change)
     root.mainloop()
@@ -168,22 +168,22 @@ def change(event):
 
     if event.keysym == 'Right':
         # Advance right
-        print('RIGHT SHIFT')
+        #print('RIGHT SHIFT')
         can.itemconfig(display[0], fill='blue')
         if solution_index < len(solutions) - 1:
             solution_index += 1
-        print(solution_index)
-        print("CONFIRMING SOLUTIONS UNMUTATED")
-        print(solutions)
+        #print(solution_index)
+        #print("CONFIRMING SOLUTIONS UNMUTATED")
+        #print(solutions)
     elif event.keysym == 'Left':
         # Regress left
-        print('LEFT SHIFT')
+        #print('LEFT SHIFT')
         can.itemconfig(display[0], fill='red')
         if solution_index > 0:
             solution_index -= 1
-        print(solution_index)
-        print("CONFIRMING SOLUTIONS UNMUTATED")
-        print(solutions)
+        #print(solution_index)
+        #print("CONFIRMING SOLUTIONS UNMUTATED")
+        #print(solutions)
 
     display_solution(solutions, solution_index)
 
@@ -202,7 +202,7 @@ def display_solution(solutions, solution_index):
     
     root.title(inverse_solves[str(solution)])
 
-    print(solution)
+    #print(solution)
 
     
 
@@ -215,7 +215,10 @@ def main():
     
     while not input_accepted:
         try:
-            raw_input = str(input('\033[1;35m' + 'word-hunter-killer' + '\033[0m' + ': Enter the content of the grid, left to right, top to bottom, no delimiters or newlines.\n'))
+            raw_input = str(input('\033[1;35m' + 'word-hunter-killer' + 
+                                  '\033[0m' + ': Enter the content of the grid, left to right, top to bottom,\n' + 
+                                    'no delimiters or newlines. Use the left and right arrows to scroll through\n' +
+                                        'answers. Start on red, follow the color spectrum down to blue. \n'))
 
             # Command parsing
             # TODO use argparse and add more options
