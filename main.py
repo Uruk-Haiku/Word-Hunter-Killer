@@ -8,6 +8,7 @@ import colorsys
 # I literally cannot figure out a better way to do this.
 solution_index = 0
 solutions = list()
+inverse_solves = dict()
 
 class Node:
     def __init__(self, letter, number):
@@ -81,6 +82,10 @@ class Word_Matrix:
         for node in node_list:
             word_bfs(node, list(), '', word_list, solves)
 
+        print(solves)
+        global inverse_solves
+        inverse_solves = {str(v): k for k, v in solves.items()}
+
         global solutions
 
         for word in solves:
@@ -100,21 +105,22 @@ class Word_Matrix:
         display(solutions)
 
 
-def word_bfs(node, path, word_so_far, word_list, solutions):
+def word_bfs(node, path, word_so_far, word_list, solves):
     # Housekeeping
     new_path = path + [node.number]
     new_word_so_far = word_so_far + node.letter
 
     if new_word_so_far in word_list and len(new_word_so_far) >= 3:
-        solutions[new_word_so_far] = new_path
+        solves[new_word_so_far] = new_path
 
     for neighbour in node.neighbours:
         if neighbour.number not in new_path:  # Prevent double-counting same node in word
-            word_bfs(neighbour, new_path, new_word_so_far, word_list, solutions)
+            word_bfs(neighbour, new_path, new_word_so_far, word_list, solves)
 
 
 def display(solutions):
     # TODO graphics
+    global root
     root = Tk()
     root.title('Word Hunter-Killer')
     global can # yes bad practice but I don't want to make the window until after command line text is entered. Sue me.
@@ -186,14 +192,16 @@ def display_solution(solutions, solution_index):
     for i in range(len(display)):
         can.itemconfig(display[i], fill='lightgrey')
     solution = solutions[solution_index]
-    colour_increment = 1 / len(solution)
+    colour_increment = 0.8 / len(solution)
     current_colour = 0
     for i in range(len(solution)):
         r, g, b = colorsys.hsv_to_rgb(current_colour, 1, 1)
         fill = '#{:02x}{:02x}{:02x}'.format(int(r * 255), int(g * 255), int(b * 255))
         can.itemconfig(display[solution[i]], fill=fill)
         current_colour += colour_increment
-        
+    
+    root.title(inverse_solves[str(solution)])
+
     print(solution)
 
     
