@@ -8,7 +8,7 @@ and have 80 seconds to select words by connecting adjacent tiles.
 ### Rules
 - 80 seconds per round
 - 4x4 grid of letter
-- Adjacent letters are horizontal, vertical and diagonnaly next to each other
+- Adjacent letters are horizontal, vertical and diagonally next to each other
 - No letter can be used more than once in the same word
 - Point value per word is determined by word length, longer words are worth significantly more
 
